@@ -10,22 +10,21 @@ class OrdersTable extends Component {
 
   render() {
     return (
-      <table className="table table-striped table-hover orders-table">
+      <table className="table table-hover orders-table">
         <tbody>
-          {this.props.orderItems.map(this.renderOrder)}
+          {this.props.orderItems.map(orderItem => {
+            return <tr key={orderItem.id}>
+              <td>{orderItem.productName}</td>
+              <td>
+                <Currency quantity={orderItem.itemCost} />
+              </td>
+            </tr>
+          })}
         </tbody>
       </table>
     );
   }
 
-  renderOrder(orderItem) {
-    return <tr key={orderItem.id}>
-      <td>{orderItem.productName}</td>
-      <td>
-        <Currency quantity={orderItem.itemCost} />
-      </td>
-    </tr>
-  }
 }
 
 export default OrdersTable;

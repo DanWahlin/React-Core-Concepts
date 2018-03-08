@@ -63,7 +63,7 @@ class OrdersContainer extends Component {
     return (
       <div>
         {this.state.customer ? (
-          <div className="row">
+          <div>
             <h1>Orders for {capitalize(this.state.customer.name)}</h1>
             <br />
             <OrdersTable orderItems={this.state.orderItems} />

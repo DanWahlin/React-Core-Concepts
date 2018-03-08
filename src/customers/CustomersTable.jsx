@@ -52,33 +52,32 @@ class CustomersTable extends Component {
 
   handleFilterChange = e => {
     const filter = e.target.value;
+    let filteredCustomers = this.props.customers;
 
     if (filter) {
-      const filteredCustomers = this.props.customers.filter(
-        cust => cust.name.toLowerCase().indexOf(filter.toLowerCase()) > -1
+      filteredCustomers = this.props.customers.filter(
+        cust => cust.name.toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
+                cust.city.toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
+                cust.orderTotal.toString().indexOf(filter.toLowerCase()) > -1
       );
-
-      this.setState({
-        filter,
-        filteredCustomers,
-        customersOrderTotal: this.calculateOrders(filteredCustomers),
-      });
-    } else {
-      this.setState({
-        filter,
-        filteredCustomers: this.props.customers,
-        customersOrderTotal: this.calculateOrders(this.props.customers)
-      });
     }
+
+    this.setState({
+      filter,
+      filteredCustomers,
+      customersOrderTotal: this.calculateOrders(filteredCustomers),
+    });
   };
 
   render() {
+    const { filteredCustomers, customersOrderTotal, filterValue } = this.state;
+
     return (
       <Fragment>
-        Filter: <input type="text" onInput={this.handleFilterChange} value={this.state.filterValue} />
+        Filter: <input type="text" onInput={this.handleFilterChange} value={filterValue} />
         <br />
         <br />
-        <table className="table table-striped">
+        <table className="table table-hover">
           <thead>
             <tr>
               <th onClick={() => this.sort('name')}>Name</th>
@@ -87,7 +86,7 @@ class CustomersTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.filteredCustomers.map(cust => (
+            {filteredCustomers.map(cust => (
               <CustomerRow
                 key={cust.id}
                 id={cust.id}
@@ -96,11 +95,11 @@ class CustomersTable extends Component {
                 orderTotal={cust.orderTotal}
               />
             ))}
-            {this.state.filteredCustomers.length ? (
+            {filteredCustomers.length ? (
               <tr>
                 <td colSpan="2" />
                 <td>
-                  <Currency quantity={this.state.customersOrderTotal} />
+                  <Currency quantity={customersOrderTotal} />
                 </td>
               </tr>
             ) : (
@@ -110,8 +109,7 @@ class CustomersTable extends Component {
             )}
           </tbody>
         </table>
-        <br />
-        Number of Customers: {this.state.filteredCustomers.length}
+        Number of Customers: {filteredCustomers.length}
       </Fragment>
     );
   }
