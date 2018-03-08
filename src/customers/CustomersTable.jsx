@@ -17,27 +17,17 @@ class CustomersTable extends Component {
 
   state = {
     filter: '',
-    filteredCustomers: [],
-    customersOrderTotal: 0,
-    sortOrder: 'asc'
+    sortOrder: 'asc',
+    sortProp: null
   };
-
-  componentWillReceiveProps(nextProps) {
-    if (!_isEqual(this.props.customers, nextProps.customers)) {
-      this.setState({
-        filteredCustomers: nextProps.customers,
-        customersOrderTotal: this.calculateOrders(nextProps.customers)
-      });
-    }
-  }
 
   sort(prop) {
     const newSortOrder = this.state.sortOrder === 'asc' ? 'desc' : 'asc';
 
-    this.setState(state => ({
+    this.setState({
       sortOrder: newSortOrder,
-      filteredCustomers: _orderBy(state.filteredCustomers, prop, newSortOrder)
-    }));
+      sortProp: prop
+    });
   }
 
   calculateOrders = customers => {
@@ -52,27 +42,35 @@ class CustomersTable extends Component {
 
   handleFilterChange = e => {
     const filter = e.target.value;
-
-    if (filter) {
-      const filteredCustomers = this.props.customers.filter(
-        cust => cust.name.toLowerCase().indexOf(filter.toLowerCase()) > -1
-      );
-
-      this.setState({
-        filter,
-        filteredCustomers,
-        customersOrderTotal: this.calculateOrders(filteredCustomers),
-      });
-    } else {
-      this.setState({
-        filter,
-        filteredCustomers: this.props.customers,
-        customersOrderTotal: this.calculateOrders(this.props.customers)
-      });
-    }
+    this.setState({filter});
   };
 
+
+  filteredCustomers() {
+    var customers = this.props.customers;
+
+    var {filter, sortProp, sortOrder} = this.state;
+
+    if (filter) {
+      customers = customers.filter(
+        cust => cust.name.toLowerCase().indexOf(filter.toLowerCase()) > -1
+      );
+    }
+
+    if (sortProp) {
+      customers = _orderBy(customers, sortProp, sortOrder);
+    }
+
+    return customers;
+  }
+
+  customersOrderTotal() {
+    return this.calculateOrders(this.filteredCustomers());
+  }
+
   render() {
+    var customers = this.filteredCustomers();
+
     return (
       <Fragment>
         Filter: <input type="text" onInput={this.handleFilterChange} value={this.state.filterValue} />
@@ -87,7 +85,7 @@ class CustomersTable extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.filteredCustomers.map(cust => (
+            {customers.map(cust => (
               <CustomerRow
                 key={cust.id}
                 id={cust.id}
@@ -96,11 +94,11 @@ class CustomersTable extends Component {
                 orderTotal={cust.orderTotal}
               />
             ))}
-            {this.state.filteredCustomers.length ? (
+            {customers.length ? (
               <tr>
                 <td colSpan="2" />
                 <td>
-                  <Currency quantity={this.state.customersOrderTotal} />
+                  <Currency quantity={this.customersOrderTotal()} />
                 </td>
               </tr>
             ) : (
@@ -111,7 +109,7 @@ class CustomersTable extends Component {
           </tbody>
         </table>
         <br />
-        Number of Customers: {this.state.filteredCustomers.length}
+        Number of Customers: {customers.length}
       </Fragment>
     );
   }
