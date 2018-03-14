@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Currency from 'react-currency-formatter';
 
-class OrdersTable extends Component {
+class OrdersList extends Component {
   static propTypes = {
     orderItems: PropTypes.array.isRequired
   };
@@ -27,4 +27,4 @@ class OrdersTable extends Component {
 
 }
 
-export default OrdersTable;
+export default OrdersList;

@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 // Components
-import CustomersTable from './CustomersTable';
+import CustomersList from './CustomersList';
 
 class CustomersContainer extends Component {
   state = {
@@ -24,7 +24,7 @@ class CustomersContainer extends Component {
       <div>
         <h1>Customers</h1>
         <br />
-        <CustomersTable customers={this.state.customers} />
+        <CustomersList customers={this.state.customers} />
       </div>
     );
   }

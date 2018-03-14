@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { capitalize } from '../utils';
 
 // Components
-import OrdersTable from './OrdersTable';
+import OrdersList from './OrdersList';
 
 class OrdersContainer extends Component {
   static propTypes = {
@@ -66,7 +66,7 @@ class OrdersContainer extends Component {
           <div>
             <h1>Orders for {capitalize(this.state.customer.name)}</h1>
             <br />
-            <OrdersTable orderItems={this.state.orderItems} />
+            <OrdersList orderItems={this.state.orderItems} />
           </div>
         ) : (
           <div className="row">No customer found</div>

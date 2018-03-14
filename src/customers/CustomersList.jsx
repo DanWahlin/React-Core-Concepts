@@ -10,7 +10,7 @@ import _isEqual from 'lodash.isequal';
 // Components
 import CustomerRow from './CustomerRow';
 
-class CustomersTable extends Component {
+class CustomersList extends Component {
   static propTypes = {
     customers: PropTypes.array.isRequired
   };
@@ -89,10 +89,7 @@ class CustomersTable extends Component {
             {filteredCustomers.map(cust => (
               <CustomerRow
                 key={cust.id}
-                id={cust.id}
-                name={cust.name}
-                city={cust.city}
-                orderTotal={cust.orderTotal}
+                customer={cust}
               />
             ))}
             {filteredCustomers.length ? (
@@ -115,4 +112,4 @@ class CustomersTable extends Component {
   }
 }
 
-export default CustomersTable;
+export default CustomersList;

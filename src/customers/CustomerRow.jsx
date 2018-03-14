@@ -1,31 +1,21 @@
-// React
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Currency from 'react-currency-formatter';
 
-// Utilities
 import { capitalize } from '../utils';
 
-const CustomerRow = ({ id, name, city, orderTotal }) => {
+const CustomerRow = ({ customer }) => {
   return (
     <tr>
       <td>
-        <Link to={`/orders/${id}`}>{capitalize(name)}</Link>
+        <Link to={`/orders/${customer.id}`}>{capitalize(customer.name)}</Link>
       </td>
-      <td>{city}</td>
+      <td>{customer.city}</td>
       <td>
-        <Currency quantity={orderTotal} />
+        <Currency quantity={customer.orderTotal} />
       </td>
     </tr>
   );
-};
-
-CustomerRow.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  city: PropTypes.string.isRequired,
-  orderTotal: PropTypes.number.isRequired
 };
 
 export default CustomerRow;
