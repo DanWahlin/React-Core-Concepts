@@ -23,6 +23,7 @@ Special thanks to [Damon Bauer](https://github.com/damonbauer) for the initial c
 1. Run the application:
 
     `npm start`
+    
 
 ## Running the Project with Docker
 
@@ -33,4 +34,9 @@ Special thanks to [Damon Bauer](https://github.com/damonbauer) for the initial c
 1. Run `docker run -d -p 8080:80 -v $(pwd)/build:/usr/share/nginx/html nginx:alpine`
 
 1. Visit `http://localhost:8080` in your browser
+
+
+## Building Custom React/Docker Images
+
+1. Examples of development and production Dockerfiles are available at the root of the project.
 
