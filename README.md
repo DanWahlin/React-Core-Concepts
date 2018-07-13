@@ -24,3 +24,13 @@ Special thanks to [Damon Bauer](https://github.com/damonbauer) for the initial c
 
     `npm start`
 
+## Running the Project with Docker
+
+1. Install the app dependencies (see above) and Docker Community Edition (if you're on Windows 7/8 you'll install Docker Toolbox) - https://docker.com
+
+1. Run `npm run build`
+
+1. Run `docker run -d -p 8080:80 -v $(pwd)/build:/usr/share/nginx/html nginx:alpine`
+
+1. Visit `http://localhost:8080` in your browser
+
